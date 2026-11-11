@@ -1,0 +1,138 @@
+{# base.html 틀을 물려받아요. 끝의 - 표시는 이 줄 뒤의 줄바꿈을 지워서 <!DOCTYPE이 맨 앞에 오게 해요. -#}
+{% extends "base.html" %}
+
+{# 탭 제목 칸에 클래스 이름을 채워요. #}
+{% block title %}{{ c.name }}{% endblock %}
+
+{# 본문 칸을 채워요. #}
+{% block content %}
+  {# 이 클래스의 카테고리 목록(/classes?category=...)으로 돌아가는 링크예요. #}
+  <p><a class="back-link" href="{{ url_for('classes', category=c.category) }}">← {{ c.category }} 목록</a></p>
+
+  {# 상세 정보를 담은 큰 카드예요. #}
+  <article class="class-card detail">
+    {# 카테고리 이름표와 지역 #}
+    <p class="meta"><span class="badge">{{ c.category }}</span> <span class="region">{{ c.region }}</span></p>
+    {# 클래스 이름은 이 화면의 제일 큰 제목이에요. #}
+    <h1 class="class-name">{{ c.name }}</h1>
+    {# 가격과 평점은 목록과 같은 조각 파일을 불러와서, 빈칸 처리도 똑같아요. #}
+    {% include "_price_rating.html" %}
+    {# 찜 버튼 폼이에요. method="post"로 보내면 app.py의 toggle_wish 함수가 찜을 켜거나 꺼요. #}
+    <form method="post" action="{{ url_for('toggle_wish', class_id=c.id) }}" class="wish-form">
+      {# 이미 찜한 클래스(is_wished가 참)라면 #}
+      {% if is_wished %}
+        {# 꽉 찬 하트 버튼이에요. 누르면 찜이 취소돼요. aria-pressed="true"는 "지금 눌려 있어요"라는 뜻이에요. #}
+        <button type="submit" class="wish-button on" aria-pressed="true">♥ 찜 취소</button>
+      {# 아직 찜하지 않은 클래스라면 #}
+      {% else %}
+        {# 빈 하트 버튼이에요. 누르면 찜 목록에 들어가요. aria-pressed="false"는 "아직 안 눌렸어요"라는 뜻이에요. #}
+        <button type="submit" class="wish-button" aria-pressed="false">♡ 찜하기</button>
+      {# if가 끝나는 곳이에요. #}
+      {% endif %}
+    </form>
+  </article>
+
+  {# 수강 후기 목록 칸이에요. id="reviews"라서 주소 끝 #reviews로 바로 이 자리에 올 수 있어요. #}
+  <section class="reviews" id="reviews">
+    {# get_flashed_messages()는 맡겨 둔 안내를 꺼내 와요. 한 번 꺼내면 사라져서, 새로고침하면 다시 안 보여요. #}
+    {% with messages = get_flashed_messages() %}
+      {# 꺼내 온 안내가 하나라도 있을 때만 보여 줘요. #}
+      {% if messages %}
+        {# 안내를 하나씩 꺼내서 m이라는 이름으로 보여 줘요. #}
+        {% for m in messages %}
+          {# 초록 안내 줄이에요. role="status"는 화면 읽기 프로그램에도 조용히 알려 줘요. #}
+          <p class="flash-success" role="status">{{ m }}</p>
+        {# 반복이 끝나는 곳이에요. #}
+        {% endfor %}
+      {# if가 끝나는 곳이에요. #}
+      {% endif %}
+    {# with가 끝나는 곳이에요. messages 이름은 여기까지만 써요. #}
+    {% endwith %}
+    {# 제목 옆 괄호에 후기 개수를 보여 줘요. |length는 목록의 개수를 세 줘요. #}
+    <h2 class="section-title">수강 후기 ({{ reviews|length }})</h2>
+    {# 후기가 하나라도 있으면 목록을 보여 줘요. #}
+    {% if reviews %}
+      {# 후기 카드들을 담는 목록이에요. #}
+      <ul class="review-list">
+        {# 후기를 하나씩 꺼내서 r이라는 이름으로 카드 한 장씩 만들어요. #}
+        {% for r in reviews %}
+          {# 후기 카드 한 장이에요. #}
+          <li class="review-card">
+            {# 닉네임과 별점을 한 줄에 보여 줘요. "★" * 4는 ★★★★처럼 별을 4번 이어 붙여요. 빈 별(☆)로 5칸을 채워요. #}
+            {# 별 뒤에는 쓴 날짜를 보여 줘요. [:16]은 앞 16글자만 잘라서 "2026-11-11 14:03"처럼 초를 빼고 보여 줘요. #}
+            <p class="review-head"><strong class="review-nickname">{{ r.nickname }}</strong> <span class="review-stars" aria-label="별점 {{ r.rating }}점">{{ "★" * r.rating }}{{ "☆" * (5 - r.rating) }}</span> <time class="review-date" datetime="{{ r.created_at }}">{{ r.created_at[:16] }}</time></p>
+            {# 후기 내용이에요. {{ }}는 <script> 같은 글자를 그냥 글자로 바꿔 보여 줘서 안전해요. #}
+            <p class="review-content">{{ r.content }}</p>
+          </li>
+        {# 반복이 끝나는 곳이에요. #}
+        {% endfor %}
+      </ul>
+    {# 후기가 하나도 없을 때 #}
+    {% else %}
+      {# 후기가 없다는 안내 문구를 보여 줘요. #}
+      <p class="empty">아직 남겨진 후기가 없어요</p>
+    {# if가 끝나는 곳이에요. #}
+    {% endif %}
+  </section>
+
+  {# 수강 후기를 적는 폼 카드예요. #}
+  <section class="review-form-card">
+    {# 폼 카드의 제목이에요. #}
+    <h2 class="section-title">수강 후기 남기기</h2>
+    {# 잘못 적은 부분이 있으면 빨간 상자로 알려 줘요. role="alert"는 화면 읽기 프로그램에도 바로 알려 줘요. #}
+    {% if errors %}
+      {# 오류 안내 상자예요. #}
+      <div class="form-error" role="alert">
+        {# 오류 메시지 목록이에요. #}
+        <ul>
+          {# 오류 메시지를 하나씩 꺼내서 e라는 이름으로 보여 줘요. #}
+          {% for e in errors %}
+            {# 오류 메시지 한 줄이에요. #}
+            <li>{{ e }}</li>
+          {# 반복이 끝나는 곳이에요. #}
+          {% endfor %}
+        </ul>
+      </div>
+    {# if가 끝나는 곳이에요. #}
+    {% endif %}
+
+    {# method="post"로 보내면 app.py의 class_detail 함수가 POST로 받아요. 주소는 url_for로 만들어요. #}
+    <form method="post" action="{{ url_for('class_detail', class_id=c.id) }}" class="review-form">
+      {# 닉네임 칸 묶음이에요. #}
+      <div class="form-field">
+        {# for="nickname"이라서 글씨를 누르면 아래 입력 칸으로 바로 가요. #}
+        <label for="nickname">닉네임</label>
+        {# 닉네임 입력 칸이에요. 20자까지, 꼭 적어야 해요(required). 오류가 났을 때는 적었던 값이 다시 채워져요. #}
+        <input type="text" id="nickname" name="nickname" maxlength="20" required value="{{ form.nickname }}">
+      </div>
+
+      {# 별점 칸 묶음이에요. #}
+      <div class="form-field">
+        {# 별점 고르기 상자의 이름표예요. #}
+        <label for="rating">별점</label>
+        {# 별점을 고르는 상자예요. 꼭 골라야 해요(required). #}
+        <select id="rating" name="rating" required>
+          {# 처음에 보이는 안내 칸이에요. 값이 비어 있어서 이걸 고르면 저장되지 않아요. #}
+          <option value="">별점을 골라 주세요</option>
+          {# 5점부터 1점까지 하나씩 n에 담아서 고르기 칸을 만들어요. #}
+          {% for n in [5, 4, 3, 2, 1] %}
+            {# 별 n개와 빈 별로 5칸을 채워 보여 줘요. 전에 골랐던 별점(form.rating)과 같으면 미리 골라 둬요(selected). n|string은 숫자를 글자로 바꿔 비교해요. #}
+            <option value="{{ n }}" {% if form.rating == n|string %}selected{% endif %}>{{ "★" * n }}{{ "☆" * (5 - n) }} {{ n }}점</option>
+          {# 반복이 끝나는 곳이에요. #}
+          {% endfor %}
+        </select>
+      </div>
+
+      {# 후기 내용 칸 묶음이에요. #}
+      <div class="form-field">
+        {# 후기 입력 칸의 이름표예요. #}
+        <label for="content">후기</label>
+        {# 여러 줄로 적는 후기 칸이에요. 500자까지, 꼭 적어야 해요. 오류가 났을 때는 적었던 내용이 다시 채워져요. #}
+        <textarea id="content" name="content" rows="4" maxlength="500" required placeholder="수업은 어땠나요?">{{ form.content }}</textarea>
+      </div>
+
+      {# 누르면 폼을 보내서 후기를 저장해요. #}
+      <button type="submit" class="button">후기 저장</button>
+    </form>
+  </section>
+{% endblock %}

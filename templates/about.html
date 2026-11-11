@@ -1,0 +1,11 @@
+{# base.html 틀을 물려받아요. 끝의 - 표시는 이 줄 뒤의 줄바꿈을 지워서 <!DOCTYPE이 맨 앞에 오게 해요. -#}
+{% extends "base.html" %}
+
+{# 탭 제목 칸을 채워요. #}
+{% block title %}소개{% endblock %}
+
+{# 본문 칸을 채워요. #}
+{% block content %}
+  <h1>서비스 소개</h1>
+  <p>클래스로 마켓은 배우고 싶은 클래스를 쉽게 찾고 신청할 수 있는 곳이에요.</p>
+{% endblock %}

@@ -1,0 +1,417 @@
+/* 페이지 전체: 글꼴과 바탕색을 정해요. */
+body {
+  margin: 0;
+  font-family: "Pretendard", "Malgun Gothic", sans-serif;
+  background: #f7f7fb;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* 내용이 적어도 바닥 글씨가 맨 아래에 붙게 해요. */
+}
+
+/* 머리 부분: 서비스 이름은 왼쪽, 메뉴는 오른쪽에 둬요. */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: #4f46e5;
+}
+
+/* 서비스 이름과 메뉴 링크: 흰 글씨, 밑줄 없이 */
+.site-header a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* 서비스 이름은 크고 굵게 */
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* 메뉴 링크 사이에 간격을 줘요. */
+nav a {
+  margin-left: 16px;
+}
+
+/* 메뉴에 마우스를 올리면 밑줄이 생겨요. */
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* 본문: 가운데 정렬, 너무 넓어지지 않게 */
+.content {
+  flex: 1;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  box-sizing: border-box;
+}
+
+/* 버튼 모양 링크 */
+.button {
+  display: inline-block;
+  padding: 10px 18px;
+  background: #4f46e5;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+/* 바닥 글씨: 작고 흐리게 */
+.site-footer {
+  padding: 16px;
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+  border-top: 1px solid #e5e5ee;
+}
+
+/* 고르기 상자 모음: 가로로 나란히, 좁으면 다음 줄로 넘어가요. */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+
+/* 선택 상자와 버튼: 안쪽 여백과 둥근 모서리 */
+.filters select,
+.filters button {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #d4d4e0;
+}
+
+/* 보기 버튼: 보라색 바탕에 흰 글씨 */
+.filters button {
+  background: #4f46e5;
+  color: #fff;
+}
+
+/* 몇 개인지 알려 주는 글씨: 작고 회색으로 */
+.result-count {
+  font-size: 14px;
+  color: #666;
+}
+
+/* 카드 목록: 점 없이, 칸(그리드)으로 나란히 놓아요. */
+.class-grid {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+/* 카드 한 장: 흰 바탕, 얇은 테두리, 둥근 모서리 */
+.class-card {
+  background: #fff;
+  border: 1px solid #e5e5ee;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+/* 카테고리 이름표: 연한 보라 바탕의 둥근 알약 모양 */
+.badge {
+  display: inline-block;
+  background: #eef2ff;
+  color: #4f46e5;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+/* 지역: 작은 회색 글씨 */
+.region {
+  font-size: 13px;
+  color: #888;
+}
+
+/* 클래스 이름: 조금 큰 글씨, 위아래 간격 */
+.class-name {
+  font-size: 16px;
+  margin: 8px 0;
+}
+
+/* 줄 그은 정가: 작고 흐리게 */
+.price del {
+  color: #999;
+  font-size: 13px;
+}
+
+/* 실제로 내는 가격: 크고 진하게 */
+.price strong {
+  font-size: 18px;
+  color: #222;
+}
+
+/* "가격 문의"와 "아직 리뷰가 없어요": 흐린 회색 */
+.price.ask,
+.rating.none {
+  color: #999;
+}
+
+/* 별점: 작은 글씨, 주황빛 */
+.rating {
+  font-size: 14px;
+  color: #b45309;
+}
+
+/* 결과가 없을 때 안내 문구: 가운데, 위아래 넉넉하게 */
+.empty {
+  text-align: center;
+  padding: 40px 0;
+  color: #888;
+}
+
+/* 첫 화면의 카테고리 버튼 모음: 가로로 나란히, 좁으면 다음 줄로 */
+.category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* 테두리만 있는 버튼: 흰 바탕에 보라 글씨 */
+.button-outline {
+  background: #fff;
+  color: #4f46e5;
+  border: 1px solid #4f46e5;
+}
+
+/* 카드 안의 링크: 글자색과 밑줄은 그대로 두고, 카드 전체를 누를 수 있게 해요. */
+.card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 카드에 마우스를 올리면 테두리가 보라색으로 바뀌어요. */
+.class-card:hover {
+  border-color: #4f46e5;
+}
+
+/* 상세 화면의 큰 카드: 안쪽 여백을 넉넉하게 */
+.class-card.detail {
+  padding: 24px;
+}
+
+/* 상세 화면의 클래스 이름: 목록보다 크게 */
+.class-card.detail .class-name {
+  font-size: 24px;
+}
+
+/* 상세 화면의 카드는 링크가 아니라서 마우스를 올려도 테두리가 그대로예요. */
+.class-card.detail:hover {
+  border-color: #e5e5ee;
+}
+
+/* "← 카테고리 목록" 링크: 보라색, 밑줄 없이 */
+.back-link {
+  color: #4f46e5;
+  text-decoration: none;
+}
+
+/* 수강 후기 칸: 위 카드와 사이를 띄워요. */
+.reviews {
+  margin-top: 32px;
+}
+
+/* "수강 후기", "수강 후기 남기기" 같은 칸 제목: 알맞은 크기, 아래만 살짝 띄워요. */
+.section-title {
+  font-size: 18px;
+  margin: 0 0 12px;
+}
+
+/* 후기 목록: 점 없이, 카드를 위아래로 쌓고 사이를 띄워요. */
+.review-list {
+  list-style: none; /* 목록 앞의 점을 없애요. */
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* 카드를 세로로 쌓아요. */
+  gap: 12px;
+}
+
+/* 후기 카드 한 장: 클래스 카드처럼 흰 바탕, 얇은 테두리, 둥근 모서리 */
+.review-card {
+  background: #fff;
+  border: 1px solid #e5e5ee;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+/* 닉네임과 별점 줄: 가로로 나란히, 아래를 살짝 띄워요. */
+.review-head {
+  margin: 0 0 6px;
+  display: flex;
+  gap: 8px;
+  align-items: center; /* 닉네임과 별을 세로 가운데에 맞춰요. */
+}
+
+/* 후기 별: 평점과 같은 주황빛 */
+.review-stars {
+  color: #b45309;
+}
+
+/* 후기 내용: 적은 줄바꿈을 그대로 보여 주고, 긴 글자는 칸 안에서 줄을 바꿔요. */
+.review-content {
+  margin: 0;
+  white-space: pre-line; /* 사용자가 엔터로 바꾼 줄을 안전하게 그대로 보여 줘요. */
+  word-break: break-word; /* 띄어쓰기 없는 긴 글자도 카드 밖으로 넘치지 않게 해요. */
+}
+
+/* 후기 쓰기 카드: 흰 바탕, 넉넉한 안쪽 여백, 위쪽을 띄워요. */
+.review-form-card {
+  background: #fff;
+  border: 1px solid #e5e5ee;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 24px;
+}
+
+/* 후기 폼: 입력 칸들을 위아래로 쌓고 사이를 띄워요. */
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* 이름표와 입력 칸 한 묶음: 위아래로 쌓고 살짝 띄워요. */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* 입력 칸 이름표: 굵고 조금 작게 */
+.form-field label {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* 글 입력 칸, 고르기 상자, 여러 줄 칸: 같은 모양으로 꾸며요. */
+.review-form input,
+.review-form select,
+.review-form textarea {
+  padding: 10px;
+  border: 1px solid #d4d4e0;
+  border-radius: 8px;
+  font: inherit; /* 페이지와 같은 글꼴을 써요. */
+  width: 100%; /* 카드 너비에 꽉 차게 해요. */
+  box-sizing: border-box; /* 여백과 테두리까지 포함해서 너비를 계산해요. */
+}
+
+/* 입력 칸을 누르면(포커스) 보라색 테두리로 지금 쓰는 칸을 알려 줘요. */
+.review-form input:focus,
+.review-form select:focus,
+.review-form textarea:focus {
+  outline: 2px solid #4f46e5;
+  border-color: #4f46e5;
+}
+
+/* 여러 줄 칸: 높이만 늘리고 줄일 수 있게 해요. */
+.review-form textarea {
+  resize: vertical;
+}
+
+/* 후기 저장 버튼: 오른쪽 끝에 두고, 누를 수 있는 손 모양 커서를 보여 줘요. */
+.review-form .button {
+  align-self: flex-end; /* 버튼을 오른쪽 끝으로 보내요. */
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+/* 오류 안내 상자: 연한 빨강 바탕, 빨간 글씨 */
+.form-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+/* 오류 메시지 목록: 바깥 여백 없이, 점 자리만 살짝 띄워요. */
+.form-error ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+/* 후기 날짜: margin-left: auto로 줄의 오른쪽 끝까지 밀어 두고, 작고 연한 회색 글씨로 보여 줘요. */
+.review-date {
+  /* 왼쪽 빈 공간을 모두 차지해서 날짜를 오른쪽 끝으로 밀어요. */
+  margin-left: auto;
+  /* 글씨를 작게 해요. */
+  font-size: 12px;
+  /* 연한 회색이라 닉네임보다 덜 눈에 띄어요. */
+  color: #888;
+}
+
+/* 저장 성공 안내 줄: 연한 초록 바탕, 초록 글씨 */
+.flash-success {
+  /* 연한 초록 바탕색이에요. */
+  background: #ecfdf5;
+  /* 바탕보다 조금 진한 초록 테두리예요. */
+  border: 1px solid #a7f3d0;
+  /* 진한 초록 글씨라 잘 읽혀요. */
+  color: #047857;
+  /* 모서리를 둥글게 해요. */
+  border-radius: 8px;
+  /* 안쪽 여백: 위아래 12px, 좌우 16px이에요. */
+  padding: 12px 16px;
+  /* 위와 양옆 여백은 없애고, 아래만 16px 띄워요. */
+  margin: 0 0 16px;
+  /* 굵은 글씨로 눈에 띄게 해요. */
+  font-weight: bold;
+}
+
+/* 찜 버튼 폼: 가격·평점 줄과 조금 떨어지게 해요. */
+.wish-form {
+  /* 위쪽을 16px 띄워요. */
+  margin-top: 16px;
+}
+
+/* 찜 버튼(찜 안 한 상태): 흰 바탕에 빨간 테두리와 빨간 글씨 */
+.wish-button {
+  /* 안쪽 여백: 위아래 10px, 좌우 18px이에요. */
+  padding: 10px 18px;
+  /* 빨간 테두리예요. */
+  border: 1px solid #e11d48;
+  /* 모서리를 둥글게 해요. */
+  border-radius: 8px;
+  /* 흰 바탕색이에요. */
+  background: #fff;
+  /* 빨간 글씨예요. */
+  color: #e11d48;
+  /* 글꼴은 페이지 글꼴을 그대로 물려받아요. */
+  font: inherit;
+  /* 굵은 글씨로 눈에 띄게 해요. */
+  font-weight: bold;
+  /* 마우스를 올리면 손가락 모양이 돼서 누를 수 있다는 걸 알려 줘요. */
+  cursor: pointer;
+}
+
+/* 찜 안 한 버튼에 마우스를 올렸을 때 */
+.wish-button:hover {
+  /* 아주 연한 분홍 바탕으로 바뀌어요. */
+  background: #fff1f2;
+}
+
+/* 찜 한 상태(on) 버튼: 빨간 바탕에 흰 글씨 */
+.wish-button.on {
+  /* 빨간 바탕색이에요. */
+  background: #e11d48;
+  /* 흰 글씨예요. */
+  color: #fff;
+}
+
+/* 찜 한 버튼에 마우스를 올렸을 때 */
+.wish-button.on:hover {
+  /* 조금 더 진한 빨강으로 바뀌어요. */
+  background: #be123c;
+}

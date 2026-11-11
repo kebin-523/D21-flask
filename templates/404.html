@@ -1,0 +1,16 @@
+{# base.html 틀을 물려받아요. 끝의 - 표시는 이 줄 뒤의 줄바꿈을 지워서 <!DOCTYPE이 맨 앞에 오게 해요. -#}
+{% extends "base.html" %}
+
+{# 탭 제목 칸을 채워요. #}
+{% block title %}페이지 없음{% endblock %}
+
+{# 본문 칸을 채워요. #}
+{% block content %}
+  {# 결과 없음과 같은 꾸밈(.empty)으로 가운데에 안내해요. #}
+  <div class="empty">
+    <h1>찾는 페이지가 없어요</h1>
+    <p>주소가 맞는지 확인해 주세요.</p>
+    {# 클래스 목록으로 돌아가는 버튼이에요. #}
+    <a class="button" href="{{ url_for('classes') }}">클래스 목록으로 가기</a>
+  </div>
+{% endblock %}

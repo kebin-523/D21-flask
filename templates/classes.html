@@ -1,0 +1,68 @@
+{# base.html 틀을 물려받아요. 끝의 - 표시는 이 줄 뒤의 줄바꿈을 지워서 <!DOCTYPE이 맨 앞에 오게 해요. -#}
+{% extends "base.html" %}
+
+{# 탭 제목 칸을 채워요. #}
+{% block title %}클래스 목록{% endblock %}
+
+{# 본문 칸을 채워요. #}
+{% block content %}
+  <h1>클래스 목록</h1>
+
+  {# 고르기 상자 모음이에요. method="get"이라 고른 값이 주소 뒤 ?category=...&sort=... 로 붙어요. #}
+  <form method="get" action="{{ url_for('classes') }}" class="filters">
+    {# 카테고리 고르기 #}
+    <label>
+      카테고리
+      <select name="category">
+        {# 값이 빈 글자면 "전체"라는 뜻이에요. #}
+        <option value="">전체</option>
+        {# 카테고리를 하나씩 꺼내서 선택지를 만들어요. 지금 고른 것에는 selected를 붙여요. #}
+        {% for c in categories %}
+          <option value="{{ c }}" {% if c == selected_category %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    {# 정렬 순서 고르기 #}
+    <label>
+      정렬
+      <select name="sort">
+        {# 값이 빈 글자면 CSV에 적힌 기본 순서예요. #}
+        <option value="">기본순</option>
+        {# 지금 고른 정렬에는 selected를 붙여서, 화면이 바뀐 뒤에도 그대로 보이게 해요. #}
+        <option value="price" {% if selected_sort == "price" %}selected{% endif %}>가격 낮은 순</option>
+        <option value="rating" {% if selected_sort == "rating" %}selected{% endif %}>평점 높은 순</option>
+      </select>
+    </label>
+
+    {# 누르면 고른 조건으로 목록을 다시 불러와요. #}
+    <button type="submit">보기</button>
+  </form>
+
+  {# 조건에 맞는 클래스가 몇 개인지 보여 줘요. #}
+  <p class="result-count">{{ count }}개의 클래스</p>
+
+  {# 하나도 없으면 안내 문구와 전체 목록으로 돌아가는 링크를 보여 줘요. #}
+  {% if count == 0 %}
+    <p class="empty">조건에 맞는 클래스가 없어요</p>
+    <p><a href="{{ url_for('classes') }}">전체 클래스 보기</a></p>
+  {# 있으면 카드 모양으로 하나씩 보여 줘요. #}
+  {% else %}
+    <ul class="class-grid">
+      {# 클래스를 하나씩 꺼내서 카드 한 장씩 만들어요. #}
+      {% for c in classes %}
+        <li class="class-card">
+          {# 카드 전체를 링크로 감싸서, 어디를 눌러도 상세 화면(/class/번호)으로 가요. #}
+          <a class="card-link" href="{{ url_for('class_detail', class_id=c.id) }}">
+            {# 카테고리 이름표와 지역 #}
+            <p class="meta"><span class="badge">{{ c.category }}</span> <span class="region">{{ c.region }}</span></p>
+            {# 클래스 이름 #}
+            <h2 class="class-name">{{ c.name }}</h2>
+            {# 가격과 평점은 상세 화면과 같은 조각 파일을 불러와서 보여 줘요. #}
+            {% include "_price_rating.html" %}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}

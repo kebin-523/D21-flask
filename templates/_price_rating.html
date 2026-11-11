@@ -1,0 +1,20 @@
+{# 가격과 평점을 보여 주는 조각이에요. 목록과 상세가 함께 써서 빈칸 처리가 늘 똑같아요. #}
+{# 이 조각을 부르는 쪽에 c(클래스 하나)가 있어야 해요. #}
+
+{# 가격이 없으면 "가격 문의"라고 보여 줘요. #}
+{% if c.price is none %}
+  <p class="price ask">가격 문의</p>
+{# 할인 중이면 정가에 줄을 긋고, 할인된 가격을 굵게 보여 줘요. "{:,}"는 39,000처럼 쉼표를 넣어 줘요. #}
+{% elif c.on_sale %}
+  <p class="price"><del>{{ "{:,}".format(c.list_price) }}원</del> <strong>{{ "{:,}".format(c.price) }}원</strong></p>
+{# 할인이 없으면 가격만 굵게 보여 줘요. #}
+{% else %}
+  <p class="price"><strong>{{ "{:,}".format(c.price) }}원</strong></p>
+{% endif %}
+
+{# 평점이 없으면 안내 문구를, 있으면 별점과 리뷰 수를 보여 줘요. #}
+{% if c.rating is none %}
+  <p class="rating none">아직 리뷰가 없어요</p>
+{% else %}
+  <p class="rating">★ {{ c.rating }} (리뷰 {{ c.review_count }})</p>
+{% endif %}

@@ -1,0 +1,26 @@
+{# base.html 틀을 물려받아요. 끝의 - 표시는 이 줄 뒤의 줄바꿈을 지워서 <!DOCTYPE이 맨 앞에 오게 해요. -#}
+{% extends "base.html" %}
+
+{# 탭 제목 칸을 채워요. #}
+{% block title %}홈{% endblock %}
+
+{# 본문 칸을 채워요. #}
+{% block content %}
+  <h1>클래스로 마켓에 오신 걸 환영해요</h1>
+  <p>배우고 싶은 클래스를 찾아보세요.</p>
+  {# 인사 화면으로 가는 예시 링크예요. name 자리에 "손님"을 넣어요. #}
+  <a class="button" href="{{ url_for('hello', name='손님') }}">인사 받아 보기</a>
+
+  {# app.py가 넘겨준 total(전체 클래스 개수)을 보여 줘요. #}
+  <p>지금 <strong>{{ total }}개</strong>의 클래스가 열려 있어요.</p>
+
+  {# 카테고리 버튼 모음이에요. 누르면 그 카테고리의 클래스 목록으로 가요. #}
+  <div class="category-buttons">
+    {# 카테고리 없이 전체 목록으로 가는 버튼이에요. #}
+    <a class="button" href="{{ url_for('classes') }}">전체 보기</a>
+    {# 카테고리를 하나씩 꺼내서 버튼을 만들어요. 주소는 /classes?category=이름 이 돼요. #}
+    {% for c in categories %}
+      <a class="button button-outline" href="{{ url_for('classes', category=c) }}">{{ c }}</a>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{# base.html 틀을 물려받아요. 끝의 - 표시는 이 줄 뒤의 줄바꿈을 지워서 <!DOCTYPE이 맨 앞에 오게 해요. -#}
+{% extends "base.html" %}
+
+{# 탭 제목 칸을 채워요. #}
+{% block title %}인사{% endblock %}
+
+{# 본문 칸을 채워요. {{ name }} 자리에 app.py가 넘겨준 이름이 들어가요. #}
+{% block content %}
+  <h1>안녕하세요, {{ name }} 님!</h1>
+  <p>오늘은 어떤 클래스를 들어 볼까요?</p>
+{% endblock %}

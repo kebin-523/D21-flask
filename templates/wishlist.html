@@ -1,0 +1,44 @@
+{# base.html 틀을 물려받아요. 끝의 - 표시는 이 줄 뒤의 줄바꿈을 지워서 <!DOCTYPE이 맨 앞에 오게 해요. -#}
+{% extends "base.html" %}
+
+{# 탭 제목 칸을 채워요. #}
+{% block title %}찜 목록{% endblock %}
+
+{# 본문 칸을 채워요. #}
+{% block content %}
+  {# 이 화면의 제일 큰 제목이에요. #}
+  <h1>찜 목록</h1>
+
+  {# 찜한 클래스가 몇 개인지 보여 줘요. #}
+  <p class="result-count">{{ count }}개의 클래스</p>
+
+  {# 하나도 없으면 안내 문구와 클래스 목록으로 가는 링크를 보여 줘요. #}
+  {% if count == 0 %}
+    {# 찜한 클래스가 없다는 안내 문구예요. #}
+    <p class="empty">아직 찜한 클래스가 없어요</p>
+    {# 누르면 클래스 목록(/classes)으로 가서 마음에 드는 클래스를 찾을 수 있어요. #}
+    <p><a href="{{ url_for('classes') }}">클래스 둘러보기</a></p>
+  {# 있으면 카드 모양으로 하나씩 보여 줘요. (가장 최근에 찜한 클래스가 맨 앞이에요) #}
+  {% else %}
+    {# 카드들을 담는 목록이에요. 클래스 목록 화면과 같은 모양이에요. #}
+    <ul class="class-grid">
+      {# 찜한 클래스를 하나씩 꺼내서 카드 한 장씩 만들어요. #}
+      {% for c in classes %}
+        {# 카드 한 장이에요. #}
+        <li class="class-card">
+          {# 카드 전체를 링크로 감싸서, 어디를 눌러도 상세 화면(/class/번호)으로 가요. #}
+          <a class="card-link" href="{{ url_for('class_detail', class_id=c.id) }}">
+            {# 카테고리 이름표와 지역 #}
+            <p class="meta"><span class="badge">{{ c.category }}</span> <span class="region">{{ c.region }}</span></p>
+            {# 클래스 이름 #}
+            <h2 class="class-name">{{ c.name }}</h2>
+            {# 가격과 평점은 상세 화면과 같은 조각 파일을 불러와서 보여 줘요. #}
+            {% include "_price_rating.html" %}
+          </a>
+        </li>
+      {# 반복이 끝나는 곳이에요. #}
+      {% endfor %}
+    </ul>
+  {# if가 끝나는 곳이에요. #}
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!-- 이 화면은 base.html을 물려받지 않는 혼자 서는 화면이에요. -->
+<!-- 서버에 문제가 생긴 순간에는 세션, 찜 개수, url_for도 고장 났을 수 있어요. -->
+<!-- 그래서 아무것도 빌려 쓰지 않고 주소(/static/style.css, /)를 직접 적어서, 이 화면만큼은 꼭 보이게 해요. -->
+<html lang="ko">
+<head>
+  <!-- 한글이 깨지지 않게 글자 방식을 UTF-8로 정해요. -->
+  <meta charset="UTF-8">
+  <!-- 휴대폰에서도 화면 폭에 맞게 보이게 해요. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 탭 제목이에요. 다른 화면과 똑같이 뒤에 서비스 이름을 붙여요. -->
+  <title>잠시 문제가 생겼어요 | 클래스로 마켓</title>
+  <!-- url_for 대신 주소를 직접 적어서 style.css를 불러와요. -->
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <!-- 다른 화면과 똑같은 머리 부분이에요. 메뉴는 고장 날 수 있는 찜 개수 때문에 빼요. -->
+  <header class="site-header">
+    <!-- 서비스 이름을 누르면 홈(/)으로 가요. -->
+    <a class="logo" href="/">클래스로 마켓</a>
+  </header>
+
+  <!-- 본문이에요. 다른 화면과 같은 content 꾸밈을 써요. -->
+  <main class="content">
+    <!-- 404 화면과 같은 꾸밈(.empty)으로 가운데에 안내해요. -->
+    <div class="empty">
+      <h1>잠시 문제가 생겼어요</h1>
+      <p>서버에서 예상하지 못한 문제가 생겼어요. 잠시 뒤에 다시 시도해 주세요.</p>
+      <!-- 홈으로 돌아가는 버튼이에요. -->
+      <p><a class="button" href="/">홈으로 가기</a></p>
+    </div>
+  </main>
+
+  <!-- 다른 화면과 똑같은 바닥 글씨예요. -->
+  <footer class="site-footer">
+    © 2026 클래스로 마켓 · 배우고 싶은 모든 순간
+  </footer>
+</body>
+</html>
